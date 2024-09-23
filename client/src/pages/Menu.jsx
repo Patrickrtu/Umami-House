@@ -34,10 +34,11 @@ const categories = ['Appetizer', 'Lunch', 'Dinner', 'Sushi', 'Dessert', 'Beverag
 
 function Menu() {
   const [menuItems, setMenuItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMenuItems = async () => {
-      setIsLoading(true);
       try {
         const items = await getMenuItems();
         const categorizedItems = categories.reduce((acc, category) => {
@@ -47,6 +48,9 @@ function Menu() {
         setMenuItems(categorizedItems);
       } catch (error) {
         console.error("Error fetching menu items:", error);
+        setError('Failed to load menu items.');
+      } finally {
+        setIsLoading(false);
       }
     };
 
