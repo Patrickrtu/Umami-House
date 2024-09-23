@@ -28,6 +28,7 @@ function Menu() {
       try {
         const items = await getMenuItems();
         setMenuItems(items);
+        console.log(items);
       } catch (error) {
         console.error('Error fetching menu items:', error);
       }
@@ -39,6 +40,7 @@ function Menu() {
   return (
     <MenuContainer>
       <h1>Our Menu</h1>
+      {console.log(menuItems)}
       <MenuGrid>
         {menuItems.map((item) => (
           <MenuItem key={item.itemID}>
