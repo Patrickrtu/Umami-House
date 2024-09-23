@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { getMenuItems } from '../api/GetMenuItems.jsx';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { getMenuItems } from "../api/GetMenuItems.jsx";
 
 const MenuContainer = styled.div`
   max-width: 1200px;
@@ -48,10 +48,7 @@ function Menu() {
         }, {});
         setMenuItems(categorizedItems);
       } catch (error) {
-        console.error('Error fetching menu items:', error);
-        setError('Failed to load menu items.');
-      } finally {
-        setIsLoading(false);
+        console.error("Error fetching menu items:", error);
       }
     };
 

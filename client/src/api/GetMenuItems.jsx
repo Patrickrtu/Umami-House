@@ -6,7 +6,7 @@ const API_BASE_URL = 'https://localhost:7184/api';
 
 export const getMenuItems = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/MenuItems`);
+    const response = await axios.get(`${API_BASE_URL}/MenuItems`, formData);
     return response.data;
   } catch (error) {
     console.error('Error getting menu items:', error);
