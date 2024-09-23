@@ -46,7 +46,6 @@ namespace RestaurantAPI.Controllers
         {
             var reservation = await _context.Reservations
                     .Where(r => r.CustomerName == name)
-                    .Include(t => t.TableId)
                     .ToListAsync();
 
             if (reservation.Count == 0)
