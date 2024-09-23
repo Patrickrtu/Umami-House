@@ -41,6 +41,22 @@ namespace RestaurantAPI.Controllers
             return reservation;
         }
 
+        [HttpGet("byname")]
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservationByName([FromQuery] string name)
+        {
+            var reservation = await _context.Reservations
+                    .Where(r => r.CustomerName == name)
+                    .Include(t => t.TableId)
+                    .ToListAsync();
+
+            if (reservation.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(reservation);
+        }
+
         // PUT: api/Reservations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

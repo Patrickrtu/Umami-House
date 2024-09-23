@@ -10,8 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
 string connectionString = builder.Configuration.GetConnectionString("cloudserver");
 
 builder.Services.AddDbContext<JapaneseRestaurantDbContext>(options =>
