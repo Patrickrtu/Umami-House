@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
+using RestaurantAPI.DTOs;
 
 namespace RestaurantAPI.Controllers
 {
@@ -22,9 +23,24 @@ namespace RestaurantAPI.Controllers
 
         // GET: api/MenuItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MenuItem>>> GetMenuItems()
+        public async Task<ActionResult<IEnumerable<MenuItemDTO>>> GetMenuItems()
         {
-            return await _context.MenuItems.ToListAsync();
+            // Retrieve menuItem records from database
+            var menuItems = await _context.MenuItems.ToListAsync();
+
+            // Map entities to DTOs
+            var menuItemDTOs = menuItems.Select(m => new MenuItemDTO
+                {
+                    ItemId = m.ItemId,
+                    Name = m.Name,
+                    Description = m.Description,
+                    IsAvailable = m.IsAvailable,
+                    Price = m.Price,
+                    Category = m.Category,
+                }
+            );
+
+            return Ok(menuItemDTOs);
         }
 
         // GET: api/MenuItems/5
@@ -37,6 +53,16 @@ namespace RestaurantAPI.Controllers
             {
                 return NotFound();
             }
+
+            var menuItemDTO = new MenuItemDTO
+            {
+                ItemId = menuItem.ItemId,
+                Name = menuItem.Name,
+                Description = menuItem.Description,
+                IsAvailable = menuItem.IsAvailable,
+                Price = menuItem.Price,
+                Category = menuItem.Category,
+            };
 
             return menuItem;
         }
