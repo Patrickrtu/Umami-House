@@ -8,10 +8,20 @@ const MenuContainer = styled.div`
   padding: 2rem;
 `;
 
+const CategorySection = styled.div`
+  margin-bottom:2rem;
+`;
+
+const CategoryTitle = styled.h2`
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
 const MenuGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
 `;
 
 const MenuItem = styled.div`
@@ -20,16 +30,28 @@ const MenuItem = styled.div`
   text-align: center;
 `;
 
+const categories = ['Appetizer', 'Lunch', 'Dinner', 'Sushi', 'Dessert', 'Beverage'];
+
 function Menu() {
   const [menuItems, setMenuItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMenuItems = async () => {
+      setIsLoading(true);
       try {
         const items = await getMenuItems();
-        setMenuItems(items);
+        const categorizedItems = categories.reduce((acc, category) => {
+          acc[category] = items.filter(item => item.category === category);
+          return acc;
+        }, {});
+        setMenuItems(categorizedItems);
       } catch (error) {
         console.error('Error fetching menu items:', error);
+        setError('Failed to load menu items.');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -39,8 +61,11 @@ function Menu() {
   return (
     <MenuContainer>
       <h1>Our Menu</h1>
-      <MenuGrid>
-        {menuItems.map((item) => (
+      {categories.map(category => (
+        <CategorySection key={category}>
+          <CategoryTitle>{category}</CategoryTitle>
+          <MenuGrid>
+        {menuItems[category] && menuItems[category].map((item) => (
           <MenuItem key={item.itemID}>
             <h3>{item.name}</h3>
             <p>{item.description}</p>
@@ -48,6 +73,9 @@ function Menu() {
           </MenuItem>
         ))}
       </MenuGrid>
+        </CategorySection>
+      ))}
+      
     </MenuContainer>
   );
 }
