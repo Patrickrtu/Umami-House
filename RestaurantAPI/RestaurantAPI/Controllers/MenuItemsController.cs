@@ -45,7 +45,7 @@ namespace RestaurantAPI.Controllers
 
         // GET: api/MenuItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MenuItem>> GetMenuItem(int id)
+        public async Task<ActionResult<MenuItemDTO>> GetMenuItem(int id)
         {
             var menuItem = await _context.MenuItems.FindAsync(id);
 
@@ -64,18 +64,28 @@ namespace RestaurantAPI.Controllers
                 Category = menuItem.Category,
             };
 
-            return menuItem;
+            return menuItemDTO;
         }
 
         // PUT: api/MenuItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenuItem(int id, MenuItem menuItem)
+        public async Task<IActionResult> PutMenuItem(int id, MenuItemDTO menuItemDTO)
         {
-            if (id != menuItem.ItemId)
+            if (id != menuItemDTO.ItemId)
             {
                 return BadRequest();
             }
+
+            var menuItem = new MenuItem
+            {
+                ItemId = menuItemDTO.ItemId,
+                Name = menuItemDTO.Name,
+                Description = menuItemDTO.Description,
+                IsAvailable = menuItemDTO.IsAvailable,
+                Price = menuItemDTO.Price,
+                Category = menuItemDTO.Category,
+            };
 
             _context.Entry(menuItem).State = EntityState.Modified;
 
@@ -101,12 +111,23 @@ namespace RestaurantAPI.Controllers
         // POST: api/MenuItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MenuItem>> PostMenuItem(MenuItem menuItem)
+        public async Task<ActionResult<MenuItemDTO>> PostMenuItem(MenuItemDTO menuItemDTO)
         {
+            // First map DTO to Entity
+            var menuItem = new MenuItem
+            {
+                ItemId = menuItemDTO.ItemId,
+                Name = menuItemDTO.Name,
+                Description = menuItemDTO.Description,
+                IsAvailable = menuItemDTO.IsAvailable,
+                Price = menuItemDTO.Price,
+                Category = menuItemDTO.Category,
+            };
+
             _context.MenuItems.Add(menuItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMenuItem", new { id = menuItem.ItemId }, menuItem);
+            return CreatedAtAction("GetMenuItem", new { id = menuItem.ItemId }, menuItemDTO);
         }
 
         // DELETE: api/MenuItems/5
