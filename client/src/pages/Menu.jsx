@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { getMenuItems } from '../api/GetMenuItems.jsx';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { getMenuItems } from "../api/GetMenuItems.jsx";
 
 const MenuContainer = styled.div`
   max-width: 1200px;
@@ -29,7 +29,7 @@ function Menu() {
         const items = await getMenuItems();
         setMenuItems(items);
       } catch (error) {
-        console.error('Error fetching menu items:', error);
+        console.error("Error fetching menu items:", error);
       }
     };
 
