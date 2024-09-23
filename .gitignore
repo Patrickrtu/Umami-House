@@ -24,4 +24,5 @@ artifacts/
 
  Visual Studio Code
 .vscode/
+.vsidx/
 
