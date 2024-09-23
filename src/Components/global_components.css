@@ -1,0 +1,35 @@
+.footer{
+    margin: .5%;
+    height:30%;
+    border: 1pt solid red;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.nav-header{
+    border: 1pt solid red;
+    display: flex;
+    flex-direction: row;
+    margin: .5%;
+}
+
+.nav-list{
+    width:50%;
+    margin-right:5%;
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    flex-direction: row;
+}
+.nav-logo{
+    width:15%;
+    margin-left: 1%;
+    margin-right: 4%;
+}
+
+/* The below is test stuffs just to see how spacing and things work */
+.border{
+    border:1pt solid red;
+}
