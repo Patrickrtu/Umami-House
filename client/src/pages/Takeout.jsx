@@ -2,11 +2,23 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getMenuItems } from '../api/GetMenuItems';
 import { createTakeoutOrder } from '../api/CreateTakeoutOrder';
+import video from '../assets/nobu_la-540p.mp4';
+
 
 const TakeoutContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+`;
+
+const VideoBackground = styled.video`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 `;
 
 const Title = styled.h1`
@@ -152,57 +164,58 @@ function Takeout() {
   }
 
   return (
-    <TakeoutContainer>
-      <Title>Takeout Order</Title>
-      <MenuGrid>
-        {menuItems.map((item) => (
-          <MenuItem key={item.itemId}>
-            <h3>{item.name}</h3>
-            <p>{item.description}</p>
-            <p>${item.price.toFixed(2)}</p>
-            <Button onClick={() => handleAddToOrder(item)}>Add to Order</Button>
-            {order.find(orderItem => orderItem.itemId === item.itemId) && (
-              <>
-                <p>Quantity: {order.find(orderItem => orderItem.itemId === item.itemId).quantity}</p>
-                <Button onClick={() => handleRemoveFromOrder(item.itemId)}>Remove</Button>
-              </>
-            )}
-          </MenuItem>
-        ))}
-      </MenuGrid>
-      <OrderForm onSubmit={handleSubmitOrder}>
-        <h2>Your Order</h2>
-        {Array.isArray(order) && order.map((item) => (
-            <p key={item.itemId}>
-              {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
-            </p>
-          ))}
-        <p>Total: ${calculateTotal().toFixed(2)}</p>
-        <Input
-          type="datetime-local"
-          name="pickupTime"
-          value={orderDetails.pickupTime}
-          onChange={handleOrderDetailsChange}
-          required
-        />
-        <Input
-          type="text"
-          name="customerName"
-          value={orderDetails.customerName}
-          onChange={handleOrderDetailsChange}
-          placeholder="Your Name"
-          required
-        />
-        <Input
-          type="tel"
-          name="customerPhone"
-          value={orderDetails.customerPhone}
-          onChange={handleOrderDetailsChange}
-          placeholder="Phone Number"
-          required
-        />
-        <Button type="submit">Place Order</Button>
-      </OrderForm>
+      <TakeoutContainer>
+        <VideoBackground src={video} autoPlay loop muted></VideoBackground>
+          <Title>Takeout Order</Title>
+          <MenuGrid>
+            {menuItems.map((item) => (
+              <MenuItem key={item.itemId}>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+                <p>${item.price.toFixed(2)}</p>
+                <Button onClick={() => handleAddToOrder(item)}>Add to Order</Button>
+                {order.find(orderItem => orderItem.itemId === item.itemId) && (
+                  <>
+                    <p>Quantity: {order.find(orderItem => orderItem.itemId === item.itemId).quantity}</p>
+                    <Button onClick={() => handleRemoveFromOrder(item.itemId)}>Remove</Button>
+                  </>
+                )}
+              </MenuItem>
+            ))}
+          </MenuGrid>
+          <OrderForm onSubmit={handleSubmitOrder}>
+            <h2>Your Order</h2>
+            {Array.isArray(order) && order.map((item) => (
+                <p key={item.itemId}>
+                  {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
+                </p>
+              ))}
+            <p>Total: ${calculateTotal().toFixed(2)}</p>
+            <Input
+              type="datetime-local"
+              name="pickupTime"
+              value={orderDetails.pickupTime}
+              onChange={handleOrderDetailsChange}
+              required
+            />
+            <Input
+              type="text"
+              name="customerName"
+              value={orderDetails.customerName}
+              onChange={handleOrderDetailsChange}
+              placeholder="Your Name"
+              required
+            />
+            <Input
+              type="tel"
+              name="customerPhone"
+              value={orderDetails.customerPhone}
+              onChange={handleOrderDetailsChange}
+              placeholder="Phone Number"
+              required
+            />
+            <Button type="submit">Place Order</Button>
+          </OrderForm>
     </TakeoutContainer>
   );
 }

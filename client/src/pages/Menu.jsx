@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { getMenuItems } from "../api/GetMenuItems.jsx";
+import video from '../assets/nobu_la-540p.mp4';
+
 
 const MenuContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+`;
+
+const VideoBackground = styled.video`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 `;
 
 const CategorySection = styled.div`
@@ -61,23 +73,23 @@ function Menu() {
   if (error) return <p>{error}</p>;
 
   return (
-    <MenuContainer>
-      <h1>Our Menu</h1>
-      {categories.map(category => (
-        <CategorySection key={category}>
-          <CategoryTitle>{category}</CategoryTitle>
-          <MenuGrid>
-        {menuItems[category] && menuItems[category].map((item) => (
-          <MenuItem key={item.itemID}>
-            <h3>{item.name}</h3>
-            <p>{item.description}</p>
-            <p>${item.price.toFixed(2)}</p>
-          </MenuItem>
-        ))}
-      </MenuGrid>
-        </CategorySection>
-      ))}
-      
+      <MenuContainer>
+        <VideoBackground src={video} autoPlay loop muted></VideoBackground>
+          <h1>Our Menu</h1>
+          {categories.map(category => (
+            <CategorySection key={category}>
+              <CategoryTitle>{category}</CategoryTitle>
+              <MenuGrid>
+            {menuItems[category] && menuItems[category].map((item) => (
+              <MenuItem key={item.itemID}>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+                <p>${item.price.toFixed(2)}</p>
+              </MenuItem>
+            ))}
+          </MenuGrid>
+            </CategorySection>
+          ))}
     </MenuContainer>
   );
 }
