@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/styles.css';
+import '../css/styles.css'
 
 
 function Header() {
+  const [isSticky, setSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setSticky(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
   return (
-    <header className="header-container">
+    <header className={`header-container ${isSticky ? 'sticky' : ''}`}>
       <nav className="nav">
         <h1 className="logo">Umami House</h1>
         <ul className="nav-links">
