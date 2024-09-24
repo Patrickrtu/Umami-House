@@ -1,68 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect, useMemo } from 'react';
+import '../css/styles.css'
 import { getMenuItems } from '../api/GetMenuItems';
 import { createTakeoutOrder } from '../api/CreateTakeoutOrder';
 import video from '../assets/nobu_la-540p.mp4';
 
-
-const TakeoutContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-`;
-
-const VideoBackground = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 2rem;
-`;
-
-const MenuGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-`;
-
-const MenuItem = styled.div`
-  border: 1px solid #ddd;
-  padding: 1rem;
-  text-align: center;
-`;
-
-const OrderForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem;
-  font-size: 1rem;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
-`;
-
 function Takeout() {
+
   const [menuItems, setMenuItems] = useState([]);
   const [order, setOrder] = useState([]);
   const [orderDetails, setOrderDetails] = useState({
@@ -85,6 +28,17 @@ function Takeout() {
 
     fetchMenuItems();
   }, []);
+
+  const calculateSubtotal = useMemo(() => {
+    if (!Array.isArray(order)) {
+      console.error('Order is not an array:', order);
+      return 0;
+    }
+    return order.reduce((total, item) => total + (item.price * item.quantity), 0);
+  }, [order]);
+
+  const tax = useMemo(() => calculateSubtotal * California_Tax_Rate, [calculateSubtotal]);
+  const total = useMemo(() => calculateSubtotal + tax, [calculateSubtotal, tax]);
 
   const handleAddToOrder = (itemToAdd) => {
     setOrder((currentOrder) => {
@@ -135,7 +89,7 @@ function Takeout() {
       orderDate: new Date().toISOString(),
       pickupTime: new Date(orderDetails.pickupTime).toISOString(),
       status: 'Pending',
-      totalAmount: calculateTotal(),
+      totalAmount: total(),
       orderItems: orderItems
     };
 
@@ -151,72 +105,68 @@ function Takeout() {
     }
   };
 
-  const calculateTotal = () => {
-    if (!Array.isArray(order)) {
-      console.error('Order is not an array:', order);
-      return 0;
-    }
-    return order.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
-
   if (error) {
     return <div>{error}</div>;
   }
 
   return (
-      <TakeoutContainer>
-        <VideoBackground src={video} autoPlay loop muted></VideoBackground>
-          <Title>Takeout Order</Title>
-          <MenuGrid>
-            {menuItems.map((item) => (
-              <MenuItem key={item.itemId}>
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-                <p>${item.price.toFixed(2)}</p>
-                <Button onClick={() => handleAddToOrder(item)}>Add to Order</Button>
-                {order.find(orderItem => orderItem.itemId === item.itemId) && (
-                  <>
-                    <p>Quantity: {order.find(orderItem => orderItem.itemId === item.itemId).quantity}</p>
-                    <Button onClick={() => handleRemoveFromOrder(item.itemId)}>Remove</Button>
-                  </>
-                )}
-              </MenuItem>
-            ))}
-          </MenuGrid>
-          <OrderForm onSubmit={handleSubmitOrder}>
-            <h2>Your Order</h2>
-            {Array.isArray(order) && order.map((item) => (
-                <p key={item.itemId}>
-                  {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
-                </p>
-              ))}
-            <p>Total: ${calculateTotal().toFixed(2)}</p>
-            <Input
-              type="datetime-local"
-              name="pickupTime"
-              value={orderDetails.pickupTime}
-              onChange={handleOrderDetailsChange}
-              required
-            />
-            <Input
-              type="text"
-              name="customerName"
-              value={orderDetails.customerName}
-              onChange={handleOrderDetailsChange}
-              placeholder="Your Name"
-              required
-            />
-            <Input
-              type="tel"
-              name="customerPhone"
-              value={orderDetails.customerPhone}
-              onChange={handleOrderDetailsChange}
-              placeholder="Phone Number"
-              required
-            />
-            <Button type="submit">Place Order</Button>
-          </OrderForm>
-    </TakeoutContainer>
+    <div className="takeout-container">
+      <h1 className="title">Takeout Order</h1>
+      <div className="menu-grid">
+        {menuItems.map((item) => (
+          <div key={item.itemId} className="menu-item">
+            <h3>{item.name}</h3>
+            <p>{item.description}</p>
+            <p>${item.price.toFixed(2)}</p>
+            <button className="button" onClick={() => handleAddToOrder(item)}>Add to Order</button>
+            {order.find(orderItem => orderItem.itemId === item.itemId) && (
+              <>
+                <p>Quantity: {order.find(orderItem => orderItem.itemId === item.itemId).quantity}</p>
+                <button className="button" onClick={() => handleRemoveFromOrder(item.itemId)}>Remove</button>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
+      <form className="order-form" onSubmit={handleSubmitOrder}>
+        <h2>Your Order</h2>
+        {Array.isArray(order) && order.map((item) => (
+            <p key={item.itemId}>
+              {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
+            </p>
+          ))}
+        <p>Subtotal: ${calculateSubtotal.toFixed(2)}</p>
+        <p>Tax: ${tax.toFixed(2)}</p>
+        <p>Total: ${total.toFixed(2)}</p>
+        <input
+          className="input"
+          type="datetime-local"
+          name="pickupTime"
+          value={orderDetails.pickupTime}
+          onChange={handleOrderDetailsChange}
+          required
+        />
+        <input
+          className="input"
+          type="text"
+          name="customerName"
+          value={orderDetails.customerName}
+          onChange={handleOrderDetailsChange}
+          placeholder="Your Name"
+          required
+        />
+        <input
+          className="input"
+          type="tel"
+          name="customerPhone"
+          value={orderDetails.customerPhone}
+          onChange={handleOrderDetailsChange}
+          placeholder="Phone Number"
+          required
+        />
+        <button className="button" type="submit">Place Order</button>
+      </form>
+    </div>
   );
 }
 

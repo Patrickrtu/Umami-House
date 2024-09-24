@@ -1,57 +1,7 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import '../css/styles.css';
 import { createReservation } from "../api/CreateReservation";
 import video from '../assets/nobu_la-540p.mp4';
-
-
-const ReservationsContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-`;
-
-const VideoBackground = styled.video`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 2rem;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem;
-  font-size: 1rem;
-`;
-
-const Select = styled.select`
-  padding: 0.5rem;
-  font-size: 1rem;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
-`;
 
 function Reservations() {
   const [formData, setFormData] = useState({
@@ -92,71 +42,76 @@ function Reservations() {
   };
 
   return (
-      <ReservationsContainer>
-        <VideoBackground src={video} autoPlay loop muted></VideoBackground>
-          <Title>Make a Reservation</Title>
-          <Form onSubmit={handleSubmit}>
-            <Input
-              type="text"
-              name="customerName"
-              value={formData.customerName}
-              onChange={handleChange}
-              placeholder="Full Name"
-              required
-            />
-            <Input
-              type="email"
-              name="customerEmail"
-              value={formData.customerEmail}
-              onChange={handleChange}
-              placeholder="Email"
-              required
-            />
-            <Input
-              type="tel"
-              name="customerPhone"
-              value={formData.customerPhone}
-              onChange={handleChange}
-              placeholder="Phone Number"
-              required
-            />
-            <Select
-              name="partySize"
-              value={formData.partySize}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Party Size</option>
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((size) => (
-                <option key={size} value={size}>
-                  {size} {size === 1 ? "person" : "people"}
-                </option>
-              ))}
-            </Select>
-            <Input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              type="time"
-              name="time"
-              value={formData.time}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              type="text"
-              name="specialRequests"
-              value={formData.specialRequests}
-              onChange={handleChange}
-              placeholder="Special Requests (optional)"
-            />
-            <Button type="submit">Make Reservation</Button>
-      </Form>
-    </ReservationsContainer>
+    <div className="reservations-container">
+      <h1 className="title">Make a Reservation</h1>
+      <form className="form" onSubmit={handleSubmit}>
+        <input
+          className="input"
+          type="text"
+          name="customerName"
+          value={formData.customerName}
+          onChange={handleChange}
+          placeholder="Full Name"
+          required
+        />
+        <input
+          className="input"
+          type="email"
+          name="customerEmail"
+          value={formData.customerEmail}
+          onChange={handleChange}
+          placeholder="Email"
+          required
+        />
+        <input
+          className="input"
+          type="tel"
+          name="customerPhone"
+          value={formData.customerPhone}
+          onChange={handleChange}
+          placeholder="Phone Number"
+          required
+        />
+        <select
+          name="partySize"
+          value={formData.partySize}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Party Size</option>
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((size) => (
+            <option key={size} value={size}>
+              {size} {size === 1 ? "person" : "people"}
+            </option>
+          ))}
+        </select>
+        <input
+          className="input"
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="input"
+          type="time"
+          name="time"
+          value={formData.time}
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="input"
+          type="text"
+          name="specialRequests"
+          value={formData.specialRequests}
+          onChange={handleChange}
+          placeholder="Special Requests (optional)"
+        />
+        <button className="button" type="submit">Make Reservation</button>
+      </form>
+    </div>
   );
 }
 
