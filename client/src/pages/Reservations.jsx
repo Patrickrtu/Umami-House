@@ -42,7 +42,8 @@ function Reservations() {
   };
 
   return (
-    <div className="reservations-container">
+      <div className="reservations-container">
+      <video className="video-background" src={video} autoPlay loop muted></video>
       <h1 className="title">Make a Reservation</h1>
       <form className="form" onSubmit={handleSubmit}>
         <input
@@ -110,7 +111,7 @@ function Reservations() {
           placeholder="Special Requests (optional)"
         />
         <button className="button" type="submit">Make Reservation</button>
-      </form>
+        </form>
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { getMenuItems } from '../api/GetMenuItems';
 import { createTakeoutOrder } from '../api/CreateTakeoutOrder';
 import video from '../assets/nobu_la-540p.mp4';
 
+const California_Tax_Rate = 0.0725;
+
 function Takeout() {
 
   const [menuItems, setMenuItems] = useState([]);
@@ -110,7 +112,8 @@ function Takeout() {
   }
 
   return (
-    <div className="takeout-container">
+      <div className="takeout-container">
+      <video className="video-background" src={video} autoPlay loop muted></video>
       <h1 className="title">Takeout Order</h1>
       <div className="menu-grid">
         {menuItems.map((item) => (
@@ -165,7 +168,7 @@ function Takeout() {
           required
         />
         <button className="button" type="submit">Place Order</button>
-      </form>
+        </form>
     </div>
   );
 }
