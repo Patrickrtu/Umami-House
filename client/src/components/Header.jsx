@@ -1,51 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import '../css/styles.css';
 
-const HeaderContainer = styled.header`
-  background-color: #000;
-  color: #fff;
-  padding: 1rem;
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Logo = styled.h1`
-  margin: 0;
-  font-size: 2rem;
-`;
-
-const NavLinks = styled.ul`
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-`;
-
-const NavLink = styled(Link)`
-  color: #fff;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 function Header() {
   return (
-    <HeaderContainer>
-      <Nav>
-        <Logo>Nobu</Logo>
-        <NavLinks>
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><NavLink to="/menu">Menu</NavLink></li>
-          <li><NavLink to="/reservations">Reservations</NavLink></li>
-          <li><NavLink to="/takeout">Takeout</NavLink></li>
-        </NavLinks>
-      </Nav>
-    </HeaderContainer>
+    <header className="header-container">
+      <nav className="nav">
+        <h1 className="logo">Umami House</h1>
+        <ul className="nav-links">
+          <li><Link to="/" className="nav-link">Home</Link></li>
+          <li><Link to="/menu" className="nav-link">Menu</Link></li>
+          <li><Link to="/reservations" className="nav-link">Reservations</Link></li>
+          <li><Link to="/takeout" className="nav-link">Takeout</Link></li>
+        </ul>
+      </nav>
+    </header>
   );
 }
 

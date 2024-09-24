@@ -1,45 +1,7 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import '../css/styles.css';
 import { createReservation } from "../api/CreateReservation";
 
-const ReservationsContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 2rem;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem;
-  font-size: 1rem;
-`;
-
-const Select = styled.select`
-  padding: 0.5rem;
-  font-size: 1rem;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
-`;
 
 function Reservations() {
   const [formData, setFormData] = useState({
@@ -80,10 +42,11 @@ function Reservations() {
   };
 
   return (
-    <ReservationsContainer>
-      <Title>Make a Reservation</Title>
-      <Form onSubmit={handleSubmit}>
-        <Input
+    <div className="reservations-container">
+      <h1 className="title">Make a Reservation</h1>
+      <form className="form" onSubmit={handleSubmit}>
+        <input
+          className="input"
           type="text"
           name="customerName"
           value={formData.customerName}
@@ -91,7 +54,8 @@ function Reservations() {
           placeholder="Full Name"
           required
         />
-        <Input
+        <input
+          className="input"
           type="email"
           name="customerEmail"
           value={formData.customerEmail}
@@ -99,7 +63,8 @@ function Reservations() {
           placeholder="Email"
           required
         />
-        <Input
+        <input
+          className="input"
           type="tel"
           name="customerPhone"
           value={formData.customerPhone}
@@ -107,7 +72,7 @@ function Reservations() {
           placeholder="Phone Number"
           required
         />
-        <Select
+        <select
           name="partySize"
           value={formData.partySize}
           onChange={handleChange}
@@ -119,31 +84,34 @@ function Reservations() {
               {size} {size === 1 ? "person" : "people"}
             </option>
           ))}
-        </Select>
-        <Input
+        </select>
+        <input
+          className="input"
           type="date"
           name="date"
           value={formData.date}
           onChange={handleChange}
           required
         />
-        <Input
+        <input
+          className="input"
           type="time"
           name="time"
           value={formData.time}
           onChange={handleChange}
           required
         />
-        <Input
+        <input
+          className="input"
           type="text"
           name="specialRequests"
           value={formData.specialRequests}
           onChange={handleChange}
           placeholder="Special Requests (optional)"
         />
-        <Button type="submit">Make Reservation</Button>
-      </Form>
-    </ReservationsContainer>
+        <button className="button" type="submit">Make Reservation</button>
+      </form>
+    </div>
   );
 }
 
