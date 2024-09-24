@@ -25,7 +25,7 @@ function Header() {
 =======
     <header className="header-container">
       <nav className="nav">
-        <h1 className="logo">Umami House</h1>
+        <h1 className="logo">Nobu</h1>
         <ul className="nav-links">
           <li><Link to="/" className="nav-link">Home</Link></li>
           <li><Link to="/menu" className="nav-link">Menu</Link></li>

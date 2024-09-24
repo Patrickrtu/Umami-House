@@ -7,7 +7,7 @@ function Footer() {
     <footer className="footer-container">
       <div className="footer-content">
         <section className="footer-section">
-          <h3 className="footer-title">Umami House</h3>
+          <h3 className="footer-title">Nobu</h3>
           <p>2525 S Blvd</p>
           <p>San Francisco, CA 94109</p>
           <p>Phone: (415) 555-9786</p>
