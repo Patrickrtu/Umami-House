@@ -52,12 +52,13 @@ const Button = styled.button`
 
 function Takeout() {
   const [menuItems, setMenuItems] = useState([]);
-  const [order, setOrder] = useState({});
+  const [order, setOrder] = useState([]);
   const [orderDetails, setOrderDetails] = useState({
     pickupTime: '',
     customerName: '',
     customerPhone: '',
   });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -66,28 +67,40 @@ function Takeout() {
         setMenuItems(items);
       } catch (error) {
         console.error('Error fetching menu items:', error);
+        setError('Failed to load menu items. Try refreshing the page.');
       }
     };
 
     fetchMenuItems();
   }, []);
 
-  const handleAddToOrder = (itemId) => {
-    setOrder((prevOrder) => ({
-      ...prevOrder,
-      [itemId]: (prevOrder[itemId] || 0) + 1,
-    }));
+  const handleAddToOrder = (itemToAdd) => {
+    setOrder((currentOrder) => {
+      if (!Array.isArray(currentOrder)) {
+        console.error('Current order is not an array:', currentOrder);
+        return [{ ...itemToAdd, quantity: 1 }];
+      }
+      const existingItem = currentOrder.find(item => item.itemId === itemToAdd.itemId);
+      if (existingItem) {
+        return currentOrder.map(item =>
+          item.itemId === itemToAdd.itemId ? { ...item, quantity: item.quantity + 1} : item
+        );
+      } else {
+        return [...currentOrder, { ...itemToAdd, quantity: 1}];
+      }
+    });
   };
 
   const handleRemoveFromOrder = (itemId) => {
-    setOrder((prevOrder) => {
-      const newOrder = { ...prevOrder };
-      if (newOrder[itemId] > 1) {
-        newOrder[itemId]--;
-      } else {
-        delete newOrder[itemId];
+    setOrder((currentOrder) => {
+      if (!Array.isArray(currentOrder)) {
+        console.error('Current order is not an array:', currentOrder);
+        return [];
       }
-      return newOrder;
+      const updatedOrder = currentOrder.map(item =>
+        item.itemId === itemId ? { ...item, quantity: item.quantity - 1 } : item
+      ).filter(item => item.quantity > 0);
+      return updatedOrder; 
     });
   };
 
@@ -97,15 +110,21 @@ function Takeout() {
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
-    const orderItems = Object.entries(order).map(([itemId, quantity]) => ({
-      menuItemId: parseInt(itemId),
+    if (!Array.isArray(order) || order.length === 0) {
+      setError('Your order is empty. Please add items to your order.');
+      return;
+    }
+    const orderItems = order.map(({ itemId, quantity }) => ({
+      menuItemId: itemId,
       quantity,
     }));
 
     const orderData = {
-      ...orderDetails,
-      orderItems,
+      orderDate: new Date().toISOString(),
+      pickupTime: new Date(orderDetails.pickupTime).toISOString(),
+      status: 'Pending',
       totalAmount: calculateTotal(),
+      orderItems: orderItems
     };
 
     try {
@@ -116,31 +135,36 @@ function Takeout() {
       setOrderDetails({ pickupTime: '', customerName: '', customerPhone: '' });
     } catch (error) {
       console.error('Error creating takeout order:', error);
-      alert('Error placing takeout order. Please try again.');
+      setError('Error placing takeout order. Please try again.');
     }
   };
 
   const calculateTotal = () => {
-    return Object.entries(order).reduce((total, [itemId, quantity]) => {
-      const item = menuItems.find((item) => item.itemID === parseInt(itemId));
-      return total + (item ? item.price * quantity : 0);
-    }, 0);
+    if (!Array.isArray(order)) {
+      console.error('Order is not an array:', order);
+      return 0;
+    }
+    return order.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <TakeoutContainer>
       <Title>Takeout Order</Title>
       <MenuGrid>
         {menuItems.map((item) => (
-          <MenuItem key={item.itemID}>
+          <MenuItem key={item.itemId}>
             <h3>{item.name}</h3>
             <p>{item.description}</p>
             <p>${item.price.toFixed(2)}</p>
-            <Button onClick={() => handleAddToOrder(item.itemID)}>Add to Order</Button>
-            {order[item.itemID] && (
+            <Button onClick={() => handleAddToOrder(item)}>Add to Order</Button>
+            {order.find(orderItem => orderItem.itemId === item.itemId) && (
               <>
-                <p>Quantity: {order[item.itemID]}</p>
-                <Button onClick={() => handleRemoveFromOrder(item.itemID)}>Remove</Button>
+                <p>Quantity: {order.find(orderItem => orderItem.itemId === item.itemId).quantity}</p>
+                <Button onClick={() => handleRemoveFromOrder(item.itemId)}>Remove</Button>
               </>
             )}
           </MenuItem>
@@ -148,14 +172,11 @@ function Takeout() {
       </MenuGrid>
       <OrderForm onSubmit={handleSubmitOrder}>
         <h2>Your Order</h2>
-        {Object.entries(order).map(([itemId, quantity]) => {
-          const item = menuItems.find((item) => item.itemID === parseInt(itemId));
-          return item ? (
-            <p key={itemId}>
-              {item.name} x {quantity} - ${(item.price * quantity).toFixed(2)}
+        {Array.isArray(order) && order.map((item) => (
+            <p key={item.itemId}>
+              {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
             </p>
-          ) : null;
-        })}
+          ))}
         <p>Total: ${calculateTotal().toFixed(2)}</p>
         <Input
           type="datetime-local"

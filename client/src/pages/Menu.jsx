@@ -57,6 +57,9 @@ function Menu() {
     fetchMenuItems();
   }, []);
 
+  if (isLoading) return <p>Loading menu items...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <MenuContainer>
       <h1>Our Menu</h1>
