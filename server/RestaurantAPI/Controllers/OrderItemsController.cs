@@ -83,7 +83,7 @@ namespace RestaurantAPI.Controllers
                 MenuItemId = orderItemDTO.MenuItemId,
                 OrderItemId = orderItemDTO.OrderItemId,
                 Quantity = orderItemDTO.Quantity,
-               OrderId = orderItemDTO.OrderId
+                OrderId = orderItemDTO.OrderId
             };
 
             _context.OrderItems.Add(orderItem);

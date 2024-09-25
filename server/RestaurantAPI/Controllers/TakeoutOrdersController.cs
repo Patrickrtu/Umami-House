@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
+using RestaurantAPI.DTOs;
 
 namespace RestaurantAPI.Controllers
 {
@@ -24,14 +25,20 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TakeoutOrder>>> GetTakeoutOrders()
         {
-            return await _context.TakeoutOrders.ToListAsync();
+            var takeoutOrders = await _context.TakeoutOrders
+                .Include(t => t.OrderItems) 
+                .ToListAsync();
+
+            return takeoutOrders;
         }
 
         // GET: api/TakeoutOrders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TakeoutOrder>> GetTakeoutOrder(int id)
         {
-            var takeoutOrder = await _context.TakeoutOrders.FindAsync(id);
+            var takeoutOrder = await _context.TakeoutOrders
+                                .Include(t => t.OrderItems)
+                                .SingleOrDefaultAsync(t => t.OrderId == id);
 
             if (takeoutOrder == null)
             {
@@ -75,8 +82,18 @@ namespace RestaurantAPI.Controllers
         // POST: api/TakeoutOrders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TakeoutOrder>> PostTakeoutOrder(TakeoutOrder takeoutOrder)
+        public async Task<ActionResult<TakeoutOrder>> PostTakeoutOrder(TakeoutOrderDTO takeoutOrderDTO)
         {
+
+            var takeoutOrder = new TakeoutOrder
+            { 
+                OrderDate = takeoutOrderDTO.OrderDate,
+                PickupTime = takeoutOrderDTO.PickupTime,
+                Status = takeoutOrderDTO.Status,
+                TotalAmount = takeoutOrderDTO.TotalAmount,
+                //OrderItems = takeoutOrderDTO.OrderItems,
+            };
+
             _context.TakeoutOrders.Add(takeoutOrder);
             await _context.SaveChangesAsync();
 
