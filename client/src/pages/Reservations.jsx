@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import '../css/styles.css';
 import { createReservation } from "../api/CreateReservation";
-import video from '../assets/nobu_la-540p.mp4';
 
 function Reservations() {
   const [formData, setFormData] = useState({
@@ -43,7 +42,6 @@ function Reservations() {
 
   return (
       <div className="reservations-container">
-      <video className="video-background" src={video} autoPlay loop muted></video>
       <h1 className="title">Make a Reservation</h1>
       <form className="form" onSubmit={handleSubmit}>
         <input
