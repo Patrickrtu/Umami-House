@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import '../css/styles.css';
 import { createReservation } from "../api/CreateReservation";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5c0bd96 (error logging for takeout order)
 
 function Reservations() {
   const [formData, setFormData] = useState({
@@ -42,7 +45,10 @@ function Reservations() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="reservations-container">
+=======
+>>>>>>> 5c0bd96 (error logging for takeout order)
       <h1 className="title">Make a Reservation</h1>
       <form className="form" onSubmit={handleSubmit}>
         <input

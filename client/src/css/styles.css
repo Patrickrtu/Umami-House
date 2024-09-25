@@ -1,8 +1,21 @@
 /* Header */
 .header-container {
-    background-color: #000;
-    color: #fff;
-    padding: 1rem;
+<<<<<<< HEAD
+=======
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: transparent;
+    color: #000;
+    padding: 1rem 2rem;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.header-container.sticky {
+    position: fixed;
+    background-color: #fff; 
+>>>>>>> 5c0bd96 (error logging for takeout order)
 }
 
 .nav {
@@ -23,7 +36,7 @@
 }
 
 .nav-link {
-    color: #fff;
+    color: #000;
     text-decoration: none;
 }
 

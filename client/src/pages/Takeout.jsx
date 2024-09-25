@@ -90,15 +90,20 @@ function Takeout() {
       orderDate: new Date().toISOString(),
       pickupTime: new Date(orderDetails.pickupTime).toISOString(),
       status: 'Pending',
-      totalAmount: total(),
-      orderItems: orderItems
+      totalAmount: total,
+      customerName: orderDetails.customerName,
+      customerPhone: orderDetails.customerPhone,
+      orderItems: orderItems.map(item => ({
+        menuItemId: item.menuItemId,
+        quantity: item.quantity
+      }))
     };
 
     try {
       const response = await createTakeoutOrder(orderData);
       console.log('Takeout order created:', response);
       alert('Takeout order placed successfully!');
-      setOrder({});
+      setOrder([]);
       setOrderDetails({ pickupTime: '', customerName: '', customerPhone: '' });
     } catch (error) {
       console.error('Error creating takeout order:', error);
@@ -111,7 +116,10 @@ function Takeout() {
   }
 
   return (
+<<<<<<< HEAD
     <div className="takeout-container">
+=======
+>>>>>>> 5c0bd96 (error logging for takeout order)
       <h1 className="title">Takeout Order</h1>
       <div className="menu-grid">
         {menuItems.map((item) => (
