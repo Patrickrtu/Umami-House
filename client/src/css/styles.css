@@ -4,7 +4,7 @@
     top: 0;
     width: 100%;
     background-color: transparent;
-    color: #fff;
+    color: #000;
     padding: 1rem 2rem;
     z-index: 1000;
     transition: background-color 0.3s ease;
@@ -12,7 +12,7 @@
 
 .header-container.sticky {
     position: fixed;
-    background-color: #000; 
+    background-color: #fff; 
 }
 
 .nav {
@@ -37,7 +37,7 @@
 }
 
 .nav-link {
-    color: #fff;
+    color: #000;
     text-decoration: none;
     font-size: 1rem;
     text-transform: uppercase;
