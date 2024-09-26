@@ -14,6 +14,7 @@ public partial class OrderItem
 
     public int Quantity { get; set; }
 
+   
     public virtual MenuItem MenuItem { get; set; } = null!;
 
     [JsonIgnore]
