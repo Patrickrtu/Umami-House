@@ -25,14 +25,18 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItems()
         {
-            return await _context.OrderItems.ToListAsync();
+            return await _context.OrderItems
+                .Include(o => o.MenuItem)        
+                .ToListAsync();
         }
 
         // GET: api/OrderItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderItem>> GetOrderItem(int id)
         {
-            var orderItem = await _context.OrderItems.FindAsync(id);
+            var orderItem = await _context.OrderItems
+                .Include(o => o.MenuItem)
+                .SingleOrDefaultAsync(o => o.OrderItemId == id);
 
             if (orderItem == null)
             {

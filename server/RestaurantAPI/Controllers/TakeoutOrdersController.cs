@@ -26,7 +26,8 @@ namespace RestaurantAPI.Controllers
         public async Task<ActionResult<IEnumerable<TakeoutOrder>>> GetTakeoutOrders()
         {
             var takeoutOrders = await _context.TakeoutOrders
-                .Include(t => t.OrderItems) 
+                .Include(t => t.OrderItems)
+                .ThenInclude(oi => oi.MenuItem)
                 .ToListAsync();
 
             return takeoutOrders;
@@ -38,6 +39,7 @@ namespace RestaurantAPI.Controllers
         {
             var takeoutOrder = await _context.TakeoutOrders
                                 .Include(t => t.OrderItems)
+                                .ThenInclude(oi => oi.MenuItem)
                                 .SingleOrDefaultAsync(t => t.OrderId == id);
 
             if (takeoutOrder == null)
@@ -84,14 +86,19 @@ namespace RestaurantAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<TakeoutOrder>> PostTakeoutOrder(TakeoutOrderDTO takeoutOrderDTO)
         {
-
             var takeoutOrder = new TakeoutOrder
-            { 
+            {
                 OrderDate = takeoutOrderDTO.OrderDate,
                 PickupTime = takeoutOrderDTO.PickupTime,
                 Status = takeoutOrderDTO.Status,
                 TotalAmount = takeoutOrderDTO.TotalAmount,
-                //OrderItems = takeoutOrderDTO.OrderItems,
+                OrderItems = takeoutOrderDTO.OrderItems.Select(o => new OrderItem
+                {
+                    OrderItemId = o.OrderId,
+                    OrderId = o.OrderId,
+                    MenuItemId = o.MenuItemId,
+                    Quantity = o.Quantity,
+                }).ToList()
             };
 
             _context.TakeoutOrders.Add(takeoutOrder);

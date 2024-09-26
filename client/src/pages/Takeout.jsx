@@ -3,6 +3,7 @@ import '../css/styles.css'
 import { getMenuItems } from '../api/GetMenuItems';
 import { createTakeoutOrder } from '../api/CreateTakeoutOrder';
 
+
 const California_Tax_Rate = 0.0725;
 
 function Takeout() {
@@ -97,7 +98,7 @@ function Takeout() {
       const response = await createTakeoutOrder(orderData);
       console.log('Takeout order created:', response);
       alert('Takeout order placed successfully!');
-      setOrder([]);
+      setOrder({});
       setOrderDetails({ pickupTime: '', customerName: '', customerPhone: '' });
     } catch (error) {
       console.error('Error creating takeout order:', error);
