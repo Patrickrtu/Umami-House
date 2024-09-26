@@ -116,10 +116,7 @@ function Takeout() {
   }
 
   return (
-<<<<<<< HEAD
-    <div className="takeout-container">
-=======
->>>>>>> 5c0bd96 (error logging for takeout order)
+      <div className="takeout-container">
       <h1 className="title">Takeout Order</h1>
       <div className="menu-grid">
         {menuItems.map((item) => (
@@ -174,7 +171,7 @@ function Takeout() {
           required
         />
         <button className="button" type="submit">Place Order</button>
-      </form>
+        </form>
     </div>
   );
 }

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/styles.css';
+import '../css/styles.css'
 
-<<<<<<< HEAD
-=======
->>>>>>> 8748efb (Takeout tax & style folder)
 
 function Header() {
   const [isSticky, setSticky] = useState(false);
@@ -20,10 +17,9 @@ function Header() {
     };
   }, []);
 
+
   return (
-<<<<<<< HEAD
-=======
-    <header className="header-container">
+    <header className={`header-container ${isSticky ? 'sticky' : ''}`}>
       <nav className="nav">
         <h1 className="logo">Nobu</h1>
         <ul className="nav-links">
@@ -34,7 +30,6 @@ function Header() {
         </ul>
       </nav>
     </header>
->>>>>>> 8748efb (Takeout tax & style folder)
   );
 }
 
