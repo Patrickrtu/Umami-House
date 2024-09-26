@@ -81,10 +81,7 @@ function Takeout() {
       setError('Your order is empty. Please add items to your order.');
       return;
     }
-    const orderItems = order.map(({ itemId, quantity }) => ({
-      menuItemId: itemId,
-      quantity,
-    }));
+    const orderItems = []
 
     const orderData = {
       orderDate: new Date().toISOString(),
@@ -93,10 +90,7 @@ function Takeout() {
       totalAmount: total,
       customerName: orderDetails.customerName,
       customerPhone: orderDetails.customerPhone,
-      orderItems: orderItems.map(item => ({
-        menuItemId: item.menuItemId,
-        quantity: item.quantity
-      }))
+      orderItems
     };
 
     try {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import '../css/styles.css'
 import { getMenuItems } from "../api/GetMenuItems.jsx";
-import video from '../assets/nobu_la-540p.mp4';
 
 const categories = ['Appetizer', 'Lunch', 'Dinner', 'Sushi', 'Dessert', 'Beverage'];
 
