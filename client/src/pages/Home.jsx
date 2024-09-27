@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/styles.css';
-import video from '../assets/nobu_la-540p.mp4'
+import video from '../assets/Timeline 1.mp4'
 
 function Home() {
   return (

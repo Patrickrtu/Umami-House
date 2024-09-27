@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import '../css/styles.css';
 import { createReservation } from "../api/CreateReservation";
+import { sendReservationConfirmation, generateConfirmationNumber } from "../components/SendGridEmails";
 
 function Reservations() {
   const [formData, setFormData] = useState({
@@ -20,10 +21,13 @@ function Reservations() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createReservation(formData);
+      const confirmationNumber = generateConfirmationNumber();
+      const reservationData = { ...formData, confirmationNumber };
+      const response = await createReservation(reservationData);
       console.log("Reservation created:", response);
+      await sendReservationConfirmation(reservationData);
       // Handle successful reservation (e.g., show a success message, clear form)
-      alert("Reservation created successfully!");
+      alert("Reservation created successfully! A confirmation email has been sent to your email address.");
       setFormData({
         customerName: "",
         customerEmail: "",
