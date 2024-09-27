@@ -28,13 +28,14 @@ router.post('/send-confirmation-email', async (req, res) => {
         `,
     };
     
-    try {
-        await sgMail.send(msg);
-        console.log('Confirmation email sent successfully');
+     try {
+        console.log('Attempting to send email');
+        const result = await sgMail.send(msg);
+        console.log('Email sent successfully');
         res.status(200).json({ message: 'Confirmation email sent successfully' });
     } catch (error) {
-        console.error('Error sending confirmation email:', error);
-        res.status(500).json({ error: 'Failed to send confirmation email' });
+        console.error('Error sending confirmation email');
+        res.status(500).json({ error: 'Failed to send confirmation email'});
     }
 });
 
