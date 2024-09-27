@@ -1,8 +1,9 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import styled from "styled-components";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Connect from "./pages/Connect";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import Reservations from "./pages/Reservations";
@@ -23,6 +24,7 @@ function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/reservations" element={<Reservations />} />
           <Route path="/takeout" element={<Takeout />} />
+          <Route path="/connect" element={<Connect />} />
         </Routes>
         <Footer />
       </AppContainer>

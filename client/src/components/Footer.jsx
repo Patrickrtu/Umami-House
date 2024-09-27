@@ -20,18 +20,7 @@ function Footer() {
           <Link to="/takeout" className="footer-link">Takeout</Link>
         </section>
         <section className="footer-section">
-          <h3 className="footer-title">Connect With Us</h3>
-          <div className="social-links">
-            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-              <i className="fab fa-twitter"></i>
-            </a>
-          </div>
+          <Link to="/connect" className="footer-title footer-link">Connect With Us</Link>
         </section>
       </div>
     </footer>
