@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
+using RestaurantAPI.Services;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<JapaneseRestaurantDbContext>(options =>
     options.UseSqlServer(connectionString)
 );
 
+builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll",
