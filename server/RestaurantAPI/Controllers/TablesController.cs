@@ -43,18 +43,19 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet("byCapacity")]
-        public async Task<ActionResult<IEnumerable<Table>>> GetTablesByCapacity([FromQuery] int capacity)
+        public async Task<ActionResult<Table>> GetTablesByCapacity([FromQuery] int capacity)
         {
-            var tables = await _context.Tables
-                            .Where(t => t.Capacity >= capacity && t.IsAvailable == true)
-                            .ToListAsync();
-            
-            if (!tables.Any())
+            var table = await _context.Tables
+                                      .Where(t => t.Capacity >= capacity && t.IsAvailable == true)
+                                      .OrderBy(t => t.Capacity)  
+                                      .FirstOrDefaultAsync();    
+
+            if (table == null)
             {
-                return NotFound();
+                return NotFound("No table available for the given capacity.");
             }
 
-            return Ok(tables);
+            return Ok(table);
         }
 
         // PUT: api/Tables/5
