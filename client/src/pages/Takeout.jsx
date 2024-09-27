@@ -3,6 +3,7 @@ import '../css/styles.css'
 import { getMenuItems } from '../api/GetMenuItems';
 import { createTakeoutOrder } from '../api/CreateTakeoutOrder';
 
+const categories = ['Appetizer', 'Lunch', 'Dinner', 'Sushi', 'Dessert', 'Beverage'];
 const California_Tax_Rate = 0.0725;
 
 function Takeout() {
@@ -15,12 +16,18 @@ function Takeout() {
     customerPhone: '',
   });
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
         const items = await getMenuItems();
-        setMenuItems(items);
+        const categorizedItems = categories.reduce((acc, category) => {
+          acc[category] = items.filter(item => item.category === category);
+          return acc;
+        }, {});
+        setMenuItems(categorizedItems);
       } catch (error) {
         console.error('Error fetching menu items:', error);
         setError('Failed to load menu items. Try refreshing the page.');
@@ -28,6 +35,9 @@ function Takeout() {
     };
 
     fetchMenuItems();
+
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
   }, []);
 
   const calculateSubtotal = useMemo(() => {
@@ -90,7 +100,7 @@ function Takeout() {
       orderDate: new Date().toISOString(),
       pickupTime: new Date(orderDetails.pickupTime).toISOString(),
       status: 'Pending',
-      totalAmount: total(),
+      totalAmount: total,
       orderItems: orderItems
     };
 
@@ -98,7 +108,7 @@ function Takeout() {
       const response = await createTakeoutOrder(orderData);
       console.log('Takeout order created:', response);
       alert('Takeout order placed successfully!');
-      setOrder({});
+      setOrder([]);
       setOrderDetails({ pickupTime: '', customerName: '', customerPhone: '' });
     } catch (error) {
       console.error('Error creating takeout order:', error);
@@ -110,63 +120,79 @@ function Takeout() {
     return <div>{error}</div>;
   }
 
+  const isDinnerTime = currentTime.getHours() >= 18;
+
   return (
     <div className="takeout-container">
       <h1 className="title">Takeout Order</h1>
-      <div className="menu-grid">
-        {menuItems.map((item) => (
-          <div key={item.itemId} className="menu-item">
-            <h3>{item.name}</h3>
-            <p>{item.description}</p>
-            <p>${item.price.toFixed(2)}</p>
-            <button className="button" onClick={() => handleAddToOrder(item)}>Add to Order</button>
-            {order.find(orderItem => orderItem.itemId === item.itemId) && (
-              <>
-                <p>Quantity: {order.find(orderItem => orderItem.itemId === item.itemId).quantity}</p>
-                <button className="button" onClick={() => handleRemoveFromOrder(item.itemId)}>Remove</button>
-              </>
-            )}
-          </div>
+      <div className="menu-section">
+        {categories.map(category => (
+          (category !== 'Dinner' || isDinnerTime) && (
+            <div key={category} className="category-section">
+              <h2 className="category-title">{category}</h2>
+              <div className="menu-grid">
+                {menuItems[category] && menuItems[category].map((item) => (
+                  <div key={item.itemId} className="menu-item">
+                    <h3>{item.name}</h3>
+                    <p>{item.description}</p>
+                    <p>${item.price.toFixed(2)}</p>
+                    <button className="add-to-order-btn" onClick={() => handleAddToOrder(item)}>Add to Order</button>
+                    {order.find(orderItem => orderItem.itemId === item.itemId) && (
+                      <div className="item-controls">
+                        <p>Quantity: {order.find(orderItem => orderItem.itemId === item.itemId).quantity}</p>
+                        <button className="remove-from-order-btn" onClick={() => handleRemoveFromOrder(item.itemId)}>Remove</button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
         ))}
       </div>
-      <form className="order-form" onSubmit={handleSubmitOrder}>
+      <div className="order-section">
         <h2>Your Order</h2>
-        {Array.isArray(order) && order.map((item) => (
-            <p key={item.itemId}>
-              {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
-            </p>
-          ))}
-        <p>Subtotal: ${calculateSubtotal.toFixed(2)}</p>
-        <p>Tax: ${tax.toFixed(2)}</p>
-        <p>Total: ${total.toFixed(2)}</p>
-        <input
-          className="input"
-          type="datetime-local"
-          name="pickupTime"
-          value={orderDetails.pickupTime}
-          onChange={handleOrderDetailsChange}
-          required
-        />
-        <input
-          className="input"
-          type="text"
-          name="customerName"
-          value={orderDetails.customerName}
-          onChange={handleOrderDetailsChange}
-          placeholder="Your Name"
-          required
-        />
-        <input
-          className="input"
-          type="tel"
-          name="customerPhone"
-          value={orderDetails.customerPhone}
-          onChange={handleOrderDetailsChange}
-          placeholder="Phone Number"
-          required
-        />
-        <button className="button" type="submit">Place Order</button>
-      </form>
+        {order.length > 0 ? (
+          <>
+            {order.map((item) => (
+              <p key={item.itemId}>
+                {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
+              </p>
+            ))}
+            <p>Subtotal: ${calculateSubtotal.toFixed(2)}</p>
+            <p>Tax: ${tax.toFixed(2)}</p>
+            <p>Total: ${total.toFixed(2)}</p>
+            <form className="order-form" onSubmit={handleSubmitOrder}>
+              <input
+                type="datetime-local"
+                name="pickupTime"
+                value={orderDetails.pickupTime}
+                onChange={handleOrderDetailsChange}
+                required
+              />
+              <input
+                type="text"
+                name="customerName"
+                value={orderDetails.customerName}
+                onChange={handleOrderDetailsChange}
+                placeholder="Your Name"
+                required
+              />
+              <input
+                type="tel"
+                name="customerPhone"
+                value={orderDetails.customerPhone}
+                onChange={handleOrderDetailsChange}
+                placeholder="Phone Number"
+                required
+              />
+              <button type="submit">Place Order</button>
+            </form>
+          </>
+        ) : (
+          <p>Your order is empty. Add items from the menu above.</p>
+        )}
+      </div>
     </div>
   );
 }

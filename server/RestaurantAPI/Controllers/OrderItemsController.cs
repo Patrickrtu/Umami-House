@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
+using RestaurantAPI.DTOs;
 
 namespace RestaurantAPI.Controllers
 {
@@ -24,14 +25,18 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItems()
         {
-            return await _context.OrderItems.ToListAsync();
+            return await _context.OrderItems
+                .Include(o => o.MenuItem)        
+                .ToListAsync();
         }
 
         // GET: api/OrderItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderItem>> GetOrderItem(int id)
         {
-            var orderItem = await _context.OrderItems.FindAsync(id);
+            var orderItem = await _context.OrderItems
+                .Include(o => o.MenuItem)
+                .SingleOrDefaultAsync(o => o.OrderItemId == id);
 
             if (orderItem == null)
             {
@@ -75,12 +80,20 @@ namespace RestaurantAPI.Controllers
         // POST: api/OrderItems
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<OrderItem>> PostOrderItem(OrderItem orderItem)
+        public async Task<ActionResult<OrderItemsDTO>> PostOrderItem(OrderItemsDTO orderItemDTO)
         {
+            var orderItem = new OrderItem
+            { 
+                MenuItemId = orderItemDTO.MenuItemId,
+                OrderItemId = orderItemDTO.OrderItemId,
+                Quantity = orderItemDTO.Quantity,
+                OrderId = orderItemDTO.OrderId
+            };
+
             _context.OrderItems.Add(orderItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrderItem", new { id = orderItem.OrderItemId }, orderItem);
+            return CreatedAtAction("GetOrderItem", new { id = orderItemDTO.OrderItemId }, orderItemDTO);
         }
 
         // DELETE: api/OrderItems/5

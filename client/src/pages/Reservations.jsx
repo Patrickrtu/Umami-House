@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import '../css/styles.css';
 import { createReservation } from "../api/CreateReservation";
 
-
 function Reservations() {
   const [formData, setFormData] = useState({
     customerName: "",
@@ -42,7 +41,7 @@ function Reservations() {
   };
 
   return (
-    <div className="reservations-container">
+      <div className="reservations-container">
       <h1 className="title">Make a Reservation</h1>
       <form className="form" onSubmit={handleSubmit}>
         <input
@@ -110,7 +109,7 @@ function Reservations() {
           placeholder="Special Requests (optional)"
         />
         <button className="button" type="submit">Make Reservation</button>
-      </form>
+        </form>
     </div>
   );
 }
