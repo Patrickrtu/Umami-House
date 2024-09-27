@@ -2,12 +2,14 @@ import React, { useState, useEffect, useMemo } from 'react';
 import '../css/styles.css'
 import { getMenuItems } from '../api/GetMenuItems';
 import { createTakeoutOrder } from '../api/CreateTakeoutOrder';
+import Notification from '../components/Notification';
 
 const categories = ['Appetizer', 'Lunch', 'Dinner', 'Sushi', 'Dessert', 'Beverage'];
 const California_Tax_Rate = 0.0725;
 
 function Takeout() {
 
+  const [notification, setNotification] = useState({ message: '', isVisible: false });
   const [menuItems, setMenuItems] = useState([]);
   const [order, setOrder] = useState([]);
   const [orderDetails, setOrderDetails] = useState({
@@ -16,7 +18,6 @@ function Takeout() {
     customerPhone: '',
   });
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -107,13 +108,21 @@ function Takeout() {
     try {
       const response = await createTakeoutOrder(orderData);
       console.log('Takeout order created:', response);
-      alert('Takeout order placed successfully!');
-      setOrder([]);
-      setOrderDetails({ pickupTime: '', customerName: '', customerPhone: '' });
+      if (response && response.orderItems && response.orderItems.length > 0) {
+        setNotification({message: 'Order placed successfully!', isVisible: true });
+        setOrder([]);
+        setOrderDetails({ pickupTime: '', customerName: '', customerPhone: '' });
+      } else {
+        throw new Error('Order items were not saved correctly');
+      }
     } catch (error) {
       console.error('Error creating takeout order:', error);
       setError('Error placing takeout order. Please try again.');
     }
+  };
+
+  const closeNotification = () => {
+    setNotification({ ...notification, isVisible: false});
   };
 
   if (error) {
@@ -124,6 +133,11 @@ function Takeout() {
 
   return (
     <div className="takeout-container">
+      <Notification 
+        message={notification.message}
+        isVisible={notification.isVisible}
+        onClose={closeNotification}
+      />
       <h1 className="title">Takeout Order</h1>
       <div className="menu-section">
         {categories.map(category => (
