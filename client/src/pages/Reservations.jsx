@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import '../css/styles.css';
-import { createReservation } from "../api/CreateReservation";
+import React, { useState, useEffect } from 'react';
+import '../css/styles.css'; // Adjust the path as necessary
+import { createReservation } from '../api/CreateReservation';
+import { getReservations } from '../api/GetReservations';
 
 function Reservations() {
   const [formData, setFormData] = useState({
@@ -12,18 +13,53 @@ function Reservations() {
     time: "",
     specialRequests: "",
   });
+  const [reservations, setReservations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate date and time
+    if (!formData.date || !formData.time) {
+      alert("Please enter both date and time.");
+      return;
+    }
+
+    // Prepare date and time in the expected formats
+    const date = new Date(formData.date);
+    const dateString = date.toISOString().split('T')[0] + 'T00:00:00';
+
+    // Ensure time is in 'HH:mm:ss' format
+    const timeString = formData.time.length === 5 ? formData.time + ':00' : formData.time;
+
+    // Prepare reservation data matching the API's expected format
+    const reservationData = {
+      tableId: null, // Or assign a table ID if available
+      customerName: formData.customerName,
+      customerEmail: formData.customerEmail,
+      customerPhone: formData.customerPhone,
+      partySize: parseInt(formData.partySize, 10),
+      date: dateString,
+      time: timeString,
+      specialRequests: formData.specialRequests || null,
+      status: "Pending",
+      createdAt: new Date().toISOString(),
+      updatedAt: null,
+      table: null, // The server might populate this
+    };
+
     try {
-      const response = await createReservation(formData);
+      const response = await createReservation(reservationData);
       console.log("Reservation created:", response);
-      // Handle successful reservation (e.g., show a success message, clear form)
       alert("Reservation created successfully!");
+      // Reset form data
       setFormData({
         customerName: "",
         customerEmail: "",
@@ -33,17 +69,78 @@ function Reservations() {
         time: "",
         specialRequests: "",
       });
+      // Refresh the reservations list
+      fetchReservations();
     } catch (error) {
       console.error("Error creating reservation:", error);
-      // Handle error (e.g., show error message to user)
       alert("Error creating reservation. Please try again.");
     }
   };
 
+  // Function to fetch reservations
+  const fetchReservations = async () => {
+    setLoading(true);
+    try {
+      const data = await getReservations();
+      setReservations(data);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+      setError('Failed to load reservations. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch reservations on component mount
+  useEffect(() => {
+    fetchReservations();
+  }, []);
+
+  if (loading) {
+    return <div className="reservations-container">Loading reservations...</div>;
+  }
+
+  if (error) {
+    return <div className="reservations-container">{error}</div>;
+  }
+
   return (
-      <div className="reservations-container">
+    <div className="reservations-container">
+      <h1 className="title">Reservations</h1>
+      <table className="reservations-table">
+        <thead>
+          <tr>
+            <th>Reservation ID</th>
+            <th>Table Number</th>
+            <th>Customer Name</th>
+            <th>Party Size</th>
+            <th>Date &amp; Time</th>
+            <th>Status</th>
+            <th>Special Requests</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reservations.map((reservation) => (
+            <tr key={reservation.reservationId}>
+              <td>{reservation.reservationId}</td>
+              <td>{reservation.table ? reservation.table.tableNumber : 'Unassigned'}</td>
+              <td>{reservation.customerName}</td>
+              <td>{reservation.partySize}</td>
+              <td>
+                {new Date(reservation.date).toLocaleDateString()}&nbsp;
+                {reservation.time}
+              </td>
+              <td>{reservation.status}</td>
+              <td>{reservation.specialRequests || 'None'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <h1 className="title">Make a Reservation</h1>
       <form className="form" onSubmit={handleSubmit}>
+        {/* Customer Name */}
         <input
           className="input"
           type="text"
@@ -53,6 +150,8 @@ function Reservations() {
           placeholder="Full Name"
           required
         />
+
+        {/* Customer Email */}
         <input
           className="input"
           type="email"
@@ -62,6 +161,8 @@ function Reservations() {
           placeholder="Email"
           required
         />
+
+        {/* Customer Phone */}
         <input
           className="input"
           type="tel"
@@ -71,19 +172,20 @@ function Reservations() {
           placeholder="Phone Number"
           required
         />
-        <select
+
+        {/* Party Size */}
+        <input
+          className="input"
+          type="number"
           name="partySize"
           value={formData.partySize}
           onChange={handleChange}
+          placeholder="Party Size"
           required
-        >
-          <option value="">Select Party Size</option>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((size) => (
-            <option key={size} value={size}>
-              {size} {size === 1 ? "person" : "people"}
-            </option>
-          ))}
-        </select>
+          min="1"
+        />
+
+        {/* Date */}
         <input
           className="input"
           type="date"
@@ -92,6 +194,8 @@ function Reservations() {
           onChange={handleChange}
           required
         />
+
+        {/* Time */}
         <input
           className="input"
           type="time"
@@ -100,6 +204,8 @@ function Reservations() {
           onChange={handleChange}
           required
         />
+
+        {/* Special Requests */}
         <input
           className="input"
           type="text"
@@ -108,8 +214,11 @@ function Reservations() {
           onChange={handleChange}
           placeholder="Special Requests (optional)"
         />
-        <button className="button" type="submit">Make Reservation</button>
-        </form>
+
+        <button className="button" type="submit">
+          Make Reservation
+        </button>
+      </form>
     </div>
   );
 }
