@@ -39,8 +39,7 @@ function Reservations() {
       });
     } catch (error) {
       console.error("Error creating reservation:", error);
-      // Handle error (e.g., show error message to user)
-      alert("Error creating reservation. Please try again.");
+      alert("Error creating reservation or sending confirmation email. Please try again.");
     }
   };
 
