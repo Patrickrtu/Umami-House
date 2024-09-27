@@ -1,7 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../css/styles.css'; // Adjust the path as necessary
 import { createReservation } from '../api/CreateReservation';
 import { getReservations } from '../api/GetReservations';
+import { getAvailableTables } from '../api/GetAvailableTables';
+
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
 
 function Reservations() {
   const [formData, setFormData] = useState({
@@ -16,6 +29,33 @@ function Reservations() {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [table, setTable] = useState(0);
+
+  const fetchAvailableTables = useCallback(debounce(async (partySize) => {
+    try {
+      if (isNaN(partySize)) {
+        return;
+      }
+
+      const table = await getAvailableTables(partySize);
+
+      if (!table) {
+        console.log('No available tables');
+        return;
+      }
+    
+      setTable(table.tableId);
+    } catch (error) {
+      console.error('Error fetching available tables:', error);
+    }
+    // Debouncing with a 500ms delay
+  }, 500), []); 
+
+  // Debounce before triggering fetchAvailableTables
+  useEffect(() => {
+    const partySize = parseInt(formData.partySize, 10);
+    fetchAvailableTables(partySize);
+  }, [formData.partySize, fetchAvailableTables]);
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -41,7 +81,7 @@ function Reservations() {
 
     // Prepare reservation data matching the API's expected format
     const reservationData = {
-      tableId: null, // Or assign a table ID if available
+      tableId: table, // Or assign a table ID if available
       customerName: formData.customerName,
       customerEmail: formData.customerEmail,
       customerPhone: formData.customerPhone,
@@ -50,9 +90,11 @@ function Reservations() {
       time: timeString,
       specialRequests: formData.specialRequests || null,
       status: "Pending",
-      createdAt: new Date().toISOString(),
-      updatedAt: null,
-      table: null, // The server might populate this
+      
+      // The server doesn't need these
+      // createdAt: new Date().toISOString(),
+      // updatedAt: null,
+      // table: null, 
     };
 
     try {
