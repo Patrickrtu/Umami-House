@@ -3,7 +3,6 @@ import '../css/styles.css'; // Adjust the path as necessary
 import { createReservation } from '../api/CreateReservation';
 import { getReservations } from '../api/GetReservations';
 import { getAvailableTables } from '../api/GetAvailableTables';
-import { sendReservationConfirmation, generateConfirmationNumber } from "../components/SendGridEmails";
 
 function debounce(func, delay) {
   let timeoutId;
@@ -100,11 +99,9 @@ function Reservations() {
 
     try {
       const response = await createReservation(reservationData);
-      console.log("Reservation created:", response);
-      await sendReservationConfirmation(reservationData);
+      console.log("Reservation created successfully");
       // Handle successful reservation (e.g., show a success message, clear form)
       alert("Reservation created successfully! A confirmation email has been sent to your email address.");
-      alert("Reservation created successfully!");
       // Reset form data
       setFormData({
         customerName: "",

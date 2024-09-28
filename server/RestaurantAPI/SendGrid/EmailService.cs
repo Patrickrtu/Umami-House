@@ -27,10 +27,10 @@ namespace RestaurantAPI.Services
                 <p>Dear {customerName},</p>
                 <p>Thank you for choosing Umami House California. Your reservation details are as follows:</p>
             <ul>
-                <li>Confirmation Number: ${confirmationNumber}</li>
-                <li>Date: ${date}</li>
-                <li>Time: ${time}</li>
-                <li>Party Size: ${partySize}</li>
+                <li>Confirmation Number: {confirmationNumber}</li>
+                <li>Date: {date}</li>
+                <li>Time: {time}</li>
+                <li>Party Size: {partySize}</li>
             </ul>
             <p>If you need to modify or cancel your reservation, please contact us at (415) 555-9786</p> 
             <p>You can also use your confirmation number to modify or cancel your reservation on our reservation page</p>
