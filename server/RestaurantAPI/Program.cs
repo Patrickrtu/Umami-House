@@ -1,21 +1,29 @@
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
+using RestaurantAPI.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+        //.AddJsonOptions(options =>
+        //{
+        //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        //    options.JsonSerializerOptions.MaxDepth = 64; // Increase max depth if needed
+        //});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string connectionString = builder.Configuration.GetConnectionString("cloudserver");
+string? connectionString = builder.Configuration.GetConnectionString("cloudserver");
 
 builder.Services.AddDbContext<JapaneseRestaurantDbContext>(options =>
     options.UseSqlServer(connectionString)
 );
 
+builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll",
