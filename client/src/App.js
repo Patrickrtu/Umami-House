@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import styled from "styled-components";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import AboutUs from "./pages/AboutUs";
 import Connect from "./pages/Connect";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/reservations" element={<Reservations />} />
           <Route path="/takeout" element={<Takeout />} />
           <Route path="/connect" element={<Connect />} />
+          <Route path="/about" element={<AboutUs />} />
         </Routes>
         <Footer />
       </AppContainer>

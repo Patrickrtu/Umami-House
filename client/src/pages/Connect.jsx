@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
+import facebook from '../assets/facebook.png';
+import instagram from '../assets/instagram.png';
+import twitter from '../assets/twitter.png';
 import '../css/styles.css';
 
 
 function Socials(){
     return(
-      <div className='c'>
-        <div className="social-links">
+      <div className="social-links">
+        <h2> Visit us @</h2>
+
         <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-        <img src="client/src/assets/facebook.jpg" className="fab fa-facebook" />
+        <img src={facebook} alt='facebook link' className="fab" />
         </a>
         <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-          <img src='./assets/instagram.jpg' className="fab fa-instagram" />
+          <img src= {instagram} alt='instagram link' className="fab" />
         </a>
         <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-          <img src='../assets/twitter.jpg' className="fab fa-twitter" />
+          <img src={twitter} alt='twitter link' className="fab" />
         </a>
       </div>
-      </div>
+
     );
 }
 
@@ -47,10 +51,12 @@ function Connect(){
 
 
     return(
-        <div className='center'>
-            <h1> Send us a Message</h1>
+        <div className='center-items'>
+            {/* <h1> Send us a Message</h1> */}
 
             <form className="form contact-form" onSubmit={handleSubmit}>
+            <h1> Send us a Message</h1>
+
                 <input
                 className="input"
                 type="text"
@@ -88,7 +94,7 @@ function Connect(){
                 </button>
         </form>
 
-        <h1>Or Visit us @</h1>
+        {/* <h1>Or Visit us @</h1> */}
         <Socials />
 
             

@@ -18,6 +18,7 @@ function Footer() {
           <Link to="/menu" className="footer-link">Menu</Link>
           <Link to="/reservations" className="footer-link">Reservations</Link>
           <Link to="/takeout" className="footer-link">Takeout</Link>
+          <Link to="/about" className="footer-link">About Us</Link>
         </section>
         <section className="footer-section">
           <Link to="/connect" className="footer-title footer-link">Connect With Us</Link>
