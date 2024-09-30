@@ -13,6 +13,7 @@ import Takeout from "./pages/Takeout";
 const AppContainer = styled.div`
   font-family: "Arial", sans-serif;
   color: #333;
+  overflow-x: hidden;
 `;
 
 function App() {
