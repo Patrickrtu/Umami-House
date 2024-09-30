@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5016/api'; 
+const API_BASE_URL = 'https://localhost:7184/api';
 
 export const createReservation = async (reservationData) => {
   try {
