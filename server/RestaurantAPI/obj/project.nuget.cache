@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "t5dHlwNSP58=",
+  "dgSpecHash": "VUq0RE8wbNo=",
   "success": true,
   "projectFilePath": "C:\\Users\\FAvour\\Desktop\\Nobu_Esque\\project-2 rrs\\server\\RestaurantAPI\\RestaurantAPI.csproj",
   "expectedPackageFiles": [
@@ -126,6 +126,8 @@
     "C:\\Users\\FAvour\\.nuget\\packages\\nuget.projectmodel\\6.11.0\\nuget.projectmodel.6.11.0.nupkg.sha512",
     "C:\\Users\\FAvour\\.nuget\\packages\\nuget.protocol\\6.11.0\\nuget.protocol.6.11.0.nupkg.sha512",
     "C:\\Users\\FAvour\\.nuget\\packages\\nuget.versioning\\6.11.0\\nuget.versioning.6.11.0.nupkg.sha512",
+    "C:\\Users\\FAvour\\.nuget\\packages\\sendgrid\\9.29.3\\sendgrid.9.29.3.nupkg.sha512",
+    "C:\\Users\\FAvour\\.nuget\\packages\\starkbank-ecdsa\\1.3.3\\starkbank-ecdsa.1.3.3.nupkg.sha512",
     "C:\\Users\\FAvour\\.nuget\\packages\\swashbuckle.aspnetcore\\6.8.0\\swashbuckle.aspnetcore.6.8.0.nupkg.sha512",
     "C:\\Users\\FAvour\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.8.0\\swashbuckle.aspnetcore.swagger.6.8.0.nupkg.sha512",
     "C:\\Users\\FAvour\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.8.0\\swashbuckle.aspnetcore.swaggergen.6.8.0.nupkg.sha512",
