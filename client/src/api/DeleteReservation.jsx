@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://localhost:7184/api';
+const API_BASE_URL = 'http://localhost:5016/api';
 
 export const deleteReservation = async (reservationId) => {
   try {
