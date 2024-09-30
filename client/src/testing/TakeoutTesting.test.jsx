@@ -25,7 +25,7 @@ describe('Takeout Component', () => {
       { itemId: 2, name: 'Ramen', price: 12, description: 'Hot ramen' },
     ];
 
-    mock.onGet('https://localhost:5016/api/MenuItems').reply(200, mockMenuItems);
+    mock.onGet('http://localhost:5016/api/MenuItems').reply(200, mockMenuItems);
 
     render(<Takeout />);
 
@@ -40,7 +40,7 @@ describe('Takeout Component', () => {
       { itemId: 1, name: 'Sushi', price: 10, description: 'Fresh sushi' },
     ];
 
-    mock.onGet('https://localhost:5016/api/MenuItems').reply(200, mockMenuItems);
+    mock.onGet('http://localhost:5016/api/MenuItems').reply(200, mockMenuItems);
 
     render(<Takeout />);
 
