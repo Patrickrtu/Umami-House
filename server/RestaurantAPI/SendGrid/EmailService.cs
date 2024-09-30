@@ -14,7 +14,7 @@ namespace RestaurantAPI.Services
             _configuration = configuration;
         }
 
-        public async Task SendReservationConfirmationAsync(string toEmail, string customerName, string confirmationNumber, DateTime date, TimeOnly time, int partySize)
+        public async Task SendReservationConfirmationAsync(int reservationId, string toEmail, string customerName, string confirmationNumber, DateTime date, TimeOnly time, int partySize)
         {
             var apiKey = _configuration["SendGrid:ApiKey"];
             var client = new SendGridClient(apiKey);
@@ -26,14 +26,15 @@ namespace RestaurantAPI.Services
                 <h1>Reservation Confirmation</h1>
                 <p>Dear {customerName},</p>
                 <p>Thank you for choosing Umami House California. Your reservation details are as follows:</p>
-            <ul>
-                <li>Confirmation Number: {confirmationNumber}</li>
-                <li>Date: {date}</li>
-                <li>Time: {time}</li>
-                <li>Party Size: {partySize}</li>
-            </ul>
+                <ul>
+                    <li>Reservation ID: {reservationId}</li>
+                    <li>Confirmation Number: {confirmationNumber}</li>
+                    <li>Date: {date.ToShortDateString()}</li>
+                    <li>Time: {time.ToString()}</li>
+                    <li>Party Size: {partySize}</li>
+                </ul>
             <p>If you need to modify or cancel your reservation, please contact us at (415) 555-9786</p> 
-            <p>You can also use your confirmation number to modify or cancel your reservation on our reservation page</p>
+            <p>You can also use your Reservation ID ${reservationId} to modify or cancel your reservation on our reservation page</p>
             <p>We look forward to serving you!</p>
             <p>Best regards,<br>Umami House California</p>
             ";

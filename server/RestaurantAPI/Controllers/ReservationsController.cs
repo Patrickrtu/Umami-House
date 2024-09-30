@@ -141,6 +141,7 @@ namespace RestaurantAPI.Controllers
             string confirmationNumber = GenerateConfirmationNumber();
 
             await _emailService.SendReservationConfirmationAsync(
+                reservation.ReservationId,
                 reservation.CustomerEmail,
                 reservation.CustomerName,
                 confirmationNumber,
