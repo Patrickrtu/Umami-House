@@ -1,3 +1,16 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* Header */
 .header-container {
   position: absolute;
@@ -67,6 +80,7 @@
   color: #fff;
   padding: 2rem 0;
   flex-shrink: 0;
+  margin-top: auto;
 }
 
 .footer-content {
@@ -113,9 +127,9 @@
 
 /* Home.jsx */
 .home-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .hero-section {
@@ -128,8 +142,6 @@
   color: #fff;
   text-align: center;
   overflow: hidden;
-  margin: 0;
-  padding: 0;
 }
 
 .video-background {
