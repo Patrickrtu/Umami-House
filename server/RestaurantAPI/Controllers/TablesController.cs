@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
 
@@ -39,6 +40,22 @@ namespace RestaurantAPI.Controllers
             }
 
             return table;
+        }
+
+        [HttpGet("byCapacity")]
+        public async Task<ActionResult<Table>> GetTablesByCapacity([FromQuery] int capacity)
+        {
+            var table = await _context.Tables
+                                      .Where(t => t.Capacity >= capacity && t.IsAvailable == true)
+                                      .OrderBy(t => t.Capacity)  
+                                      .FirstOrDefaultAsync();    
+
+            if (table == null)
+            {
+                return NotFound("No table available for the given capacity.");
+            }
+
+            return Ok(table);
         }
 
         // PUT: api/Tables/5

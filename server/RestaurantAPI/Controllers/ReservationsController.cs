@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Models;
 using RestaurantAPI.DTOs;
+using RestaurantAPI.Services;
 
 namespace RestaurantAPI.Controllers
 {
@@ -15,10 +16,12 @@ namespace RestaurantAPI.Controllers
     public class ReservationsController : ControllerBase
     {
         private readonly JapaneseRestaurantDbContext _context;
+        private readonly EmailService _emailService;
 
-        public ReservationsController(JapaneseRestaurantDbContext context)
+        public ReservationsController(JapaneseRestaurantDbContext context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         // GET: api/Reservations
@@ -107,6 +110,11 @@ namespace RestaurantAPI.Controllers
             return NoContent();
         }
 
+        private string GenerateConfirmationNumber() 
+        {
+            return Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();
+        }
+
         // POST: api/Reservations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -129,6 +137,17 @@ namespace RestaurantAPI.Controllers
 
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
+
+            string confirmationNumber = GenerateConfirmationNumber();
+
+            await _emailService.SendReservationConfirmationAsync(
+                reservation.CustomerEmail,
+                reservation.CustomerName,
+                confirmationNumber,
+                reservation.Date,
+                reservation.Time,
+                reservation.PartySize
+            );
 
             return CreatedAtAction("GetReservation", new { id = reservation.ReservationId }, reservation);
         }
