@@ -381,3 +381,99 @@ button:hover {
 .reservations-table tr:hover {
   background-color: #eaeaea;
 }
+
+
+
+
+.delete-reservation-content {
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto; /* Centers the content horizontally */
+  margin-top: 2rem; /* Adds space above the component */
+}
+
+
+/* Center the heading */
+.delete-reservation-content h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  color: #333;
+}
+
+/* Style the form group */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Style the label */
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+/* Style the input field */
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Focus effect on input */
+.form-group input:focus {
+  outline: none;
+  border-color: #40a9ff;
+  box-shadow: 0 0 5px rgba(24, 144, 255, 0.2);
+}
+
+/* Center the button */
+.button-container {
+  text-align: center;
+}
+
+/* Style the button */
+.button-container button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #ff4d4f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Disabled button style */
+.button-container button:disabled {
+  background-color: #d9d9d9;
+  cursor: not-allowed;
+}
+
+/* Hover effect on button */
+.button-container button:hover:not(:disabled) {
+  background-color: #ff7875;
+}
+
+/* Style for error and success messages */
+.error-message,
+.success-message {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.error-message {
+  color: #ff4d4f;
+}
+
+.success-message {
+  color: #52c41a;
+}
