@@ -51,7 +51,7 @@ function Connect(){
 
 
     return(
-        <div className='center-items'>
+        <div className='title'>
             {/* <h1> Send us a Message</h1> */}
 
             <form className="form contact-form" onSubmit={handleSubmit}>

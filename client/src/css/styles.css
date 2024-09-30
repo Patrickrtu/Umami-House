@@ -220,6 +220,13 @@
 }
 
 /* Menu.jsx */
+.menu-header{
+  display:flex;
+  justify-content: center;
+  margin-top: 4%;
+  margin-bottom: 1rem;
+}
+
 .menu-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -255,9 +262,11 @@
   padding: 2rem;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 2rem;
+.title{
+  display:flex;
+  justify-content: center;
+  margin-top: 4%;
+  margin-bottom: 1rem;
 }
 
 .form {
