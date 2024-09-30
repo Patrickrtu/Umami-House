@@ -3,6 +3,7 @@ import '../css/styles.css'; // Adjust the path as necessary
 import { createReservation } from '../api/CreateReservation';
 import { getReservations } from '../api/GetReservations';
 import { getAvailableTables } from '../api/GetAvailableTables';
+import DeleteReservation from '../components/DeleteReservation.jsx';
 
 function debounce(func, delay) {
   let timeoutId;
@@ -262,6 +263,7 @@ function Reservations() {
           Make Reservation
         </button>
       </form>
+      <DeleteReservation/>
     </div>
   );
 }
