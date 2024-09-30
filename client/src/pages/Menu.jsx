@@ -34,7 +34,7 @@ function Menu() {
 
   return (
     <div className="menu-container">
-      <h1 className="menu-header">Our Menu</h1>
+      <h1 className="title">Our Menu</h1>
       {categories.map(category => (
         <div key={category} className="category-section">
           <h2 className="category-title">{category}</h2>
