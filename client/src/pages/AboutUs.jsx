@@ -1,11 +1,12 @@
 import SalakoFavour from "../assets/SalakoFavour.jpg";
 import Patrick from "../assets/patrick.jpg";
+import Gerald from "../assets/Gerald.png"
 import "../css/styles.css";
 
 const person = {
   Gerald: {
-    description: "",
-    picture: "",
+    description: "Gerald works behind the scenes to ensure that our customers have a memorable experience.",
+    picture: Gerald,
   },
   Muhammad: {
     description: "",
@@ -51,7 +52,7 @@ function AboutUs() {
 
       <h3 className="page-section">
         {" "}
-        Umami house is the culmination of passion and experience from 5 friends.
+        Umami house is the culmination of passion and experience from 6 friends.
         It traces its root to a shared love and appreciation for Japanese
         Cuisine as well as business in general. Our Founders want to share the
         beauty of Japanese Cuisine with the world and believe everyone would
