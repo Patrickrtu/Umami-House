@@ -4,6 +4,7 @@ import { createReservation } from '../api/CreateReservation';
 import { getReservations } from '../api/GetReservations';
 import { getAvailableTables } from '../api/GetAvailableTables';
 import DeleteReservation from '../components/DeleteReservation.jsx';
+import Notification from '../components/Notification.jsx';
 
 function debounce(func, delay) {
   let timeoutId;
@@ -31,6 +32,7 @@ function Reservations() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [table, setTable] = useState(0);
+  const [notification, setNotification] = useState({ message:'', isVisible: false });
 
   const fetchAvailableTables = useCallback(debounce(async (partySize) => {
     try {
@@ -102,7 +104,7 @@ function Reservations() {
       const response = await createReservation(reservationData);
       console.log("Reservation created successfully");
       // Handle successful reservation (e.g., show a success message, clear form)
-      alert("Reservation created successfully! A confirmation email has been sent to your email address.");
+      setNotification({ message: 'Reservation placed successfully!', isVisible: true }); // Show notification
       // Reset form data
       setFormData({
         customerName: "",
@@ -119,6 +121,10 @@ function Reservations() {
       console.error("Error creating reservation:", error);
       alert("Error creating reservation. Please try again.");
     }
+  };
+
+  const closeNotification = () => {
+    setNotification({ ...notification, isVisible: false });
   };
 
   // Function to fetch reservations
@@ -151,11 +157,15 @@ function Reservations() {
 
   return (
     <div className="reservations-container">
+      <Notification
+        message={notification.message}
+        isVisible={notification.isVisible}
+        onClose={closeNotification}
+      />
       <h1 className="title">Reservations</h1>
       <table className="reservations-table">
         <thead>
           <tr>
-            <th>Reservation ID</th>
             <th>Table Number</th>
             <th>Customer Name</th>
             <th>Party Size</th>
@@ -167,7 +177,6 @@ function Reservations() {
         <tbody>
           {reservations.map((reservation) => (
             <tr key={reservation.reservationId}>
-              <td>{reservation.reservationId}</td>
               <td>{reservation.table ? reservation.table.tableNumber : 'Unassigned'}</td>
               <td>{reservation.customerName}</td>
               <td>{reservation.partySize}</td>
