@@ -151,7 +151,7 @@ function Reservations() {
 
   return (
     <div className="reservations-container">
-      <h1 className="title">Reservations</h1>
+      <h1 className="page-header">Reservations</h1>
       <table className="reservations-table">
         <thead>
           <tr>

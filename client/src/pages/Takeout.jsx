@@ -138,7 +138,7 @@ function Takeout() {
         isVisible={notification.isVisible}
         onClose={closeNotification}
       />
-      <h1 className="title">Takeout Order</h1>
+      <h1 className="page-header">Takeout Order</h1>
       <div className="menu-section">
         {categories.map(category => (
           (category !== 'Dinner' || isDinnerTime) && (
