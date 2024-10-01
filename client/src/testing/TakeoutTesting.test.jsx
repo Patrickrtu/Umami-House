@@ -21,8 +21,8 @@ describe('Takeout Component', () => {
 
   it('fetches and displays menu items', async () => {
     const mockMenuItems = [
-      { itemId: 1, name: 'Sushi', price: 10, description: 'Fresh sushi' },
-      { itemId: 2, name: 'Ramen', price: 12, description: 'Hot ramen' },
+      { itemId: 1, name: 'California Roll', price: 5.99, description: 'Crab, avocado, and cucumber roll', category: 'Sushi' },
+      { itemId: 2, name: 'Ramen', price: 12, description: 'Hot ramen', category: 'Lunch' },
     ];
 
     mock.onGet('http://localhost:5016/api/MenuItems').reply(200, mockMenuItems);
@@ -37,11 +37,11 @@ describe('Takeout Component', () => {
 
   it('adds item to order when "Add to Order" is clicked', async () => {
     const mockMenuItems = [
-      { itemId: 1, name: 'Sushi', price: 10, description: 'Fresh sushi' },
+      { itemId: 1, name: 'California Roll', price: 5.99, description: 'Crab, avocado, and cucumber roll', category: 'Sushi' },
     ];
 
     mock.onGet('http://localhost:5016/api/MenuItems').reply(200, mockMenuItems);
-
+    
     render(<Takeout />);
 
     await waitFor(() => {
@@ -50,7 +50,7 @@ describe('Takeout Component', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText('Sushi x 1 - $10.00')).toBeInTheDocument();
+      expect(screen.getByText('California Roll x 1 - $5.99')).toBeInTheDocument();
     });
   });
 });
