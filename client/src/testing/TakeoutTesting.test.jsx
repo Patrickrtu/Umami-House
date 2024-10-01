@@ -30,7 +30,7 @@ describe('Takeout Component', () => {
     render(<Takeout />);
 
     await waitFor(() => {
-      expect(screen.getByText('Sushi')).toBeInTheDocument();
+      expect(screen.getByText('California Roll')).toBeInTheDocument();
       expect(screen.getByText('Ramen')).toBeInTheDocument();
     });
   });

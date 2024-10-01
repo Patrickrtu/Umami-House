@@ -34,7 +34,7 @@ namespace RestaurantAPI.Services
                     <li>Party Size: {partySize}</li>
                 </ul>
             <p>If you need to modify or cancel your reservation, please contact us at (415) 555-9786</p> 
-            <p>You can also use your Reservation ID ${reservationId} to modify or cancel your reservation on our reservation page</p>
+            <p>You can also use your Reservation ID ({reservationId}) to modify or cancel your reservation on our reservation page</p>
             <p>We look forward to serving you!</p>
             <p>Best regards,<br>Umami House California</p>
             ";
