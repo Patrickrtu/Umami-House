@@ -6,7 +6,6 @@ const categories = ['Appetizer', 'Lunch', 'Dinner', 'Sushi', 'Dessert', 'Beverag
 
 function Menu() {
   const [menuItems, setMenuItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -20,17 +19,12 @@ function Menu() {
         setMenuItems(categorizedItems);
       } catch (error) {
         console.error("Error fetching menu items:", error);
-        setError('Failed to load menu items.');
-      } finally {
-        setIsLoading(false);
+        setError('Failed to load menu items. Try refreshing the page.');
       }
     };
 
     fetchMenuItems();
   }, []);
-
-  if (isLoading) return <p>Loading menu items...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <div className="menu-container">

@@ -29,7 +29,6 @@ function Reservations() {
     specialRequests: "",
   });
   const [reservations, setReservations] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [table, setTable] = useState(0);
   const [notification, setNotification] = useState({ message:'', isVisible: false });
@@ -129,7 +128,6 @@ function Reservations() {
 
   // Function to fetch reservations
   const fetchReservations = async () => {
-    setLoading(true);
     try {
       const data = await getReservations();
       setReservations(data);
@@ -138,7 +136,6 @@ function Reservations() {
       console.error('Error fetching reservations:', error);
       setError('Failed to load reservations. Please try again later.');
     } finally {
-      setLoading(false);
     }
   };
 
@@ -146,10 +143,6 @@ function Reservations() {
   useEffect(() => {
     fetchReservations();
   }, []);
-
-  if (loading) {
-    return <div className="reservations-container">Loading reservations...</div>;
-  }
 
   if (error) {
     return <div className="reservations-container">{error}</div>;
