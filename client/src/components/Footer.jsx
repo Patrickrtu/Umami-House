@@ -21,7 +21,9 @@ function Footer() {
           <Link to="/about" className="footer-link">About Us</Link>
         </section>
         <section className="footer-section">
-          <Link to="/connect" className="footer-title footer-link">Connect With Us</Link>
+          <Link to="/connect" className="footer-link">
+            <h3 className="footer-title">Connect With Us</h3>
+          </Link>
         </section>
       </div>
     </footer>
