@@ -502,6 +502,12 @@ button:hover {
   padding: 2rem;
 }
 
+.reservations-table-container {
+  overflow-y: auto;
+  height: 15em;
+  max-height: 15em;
+}
+
 .reservations-table {
   width: 100%;
   border-collapse: collapse;
