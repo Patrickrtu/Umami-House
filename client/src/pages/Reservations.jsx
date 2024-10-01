@@ -163,33 +163,35 @@ function Reservations() {
         onClose={closeNotification}
       />
       <h1 className="title">Reservations</h1>
-      <table className="reservations-table">
-        <thead>
-          <tr>
-            <th>Table Number</th>
-            <th>Customer Name</th>
-            <th>Party Size</th>
-            <th>Date &amp; Time</th>
-            <th>Status</th>
-            <th>Special Requests</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((reservation) => (
-            <tr key={reservation.reservationId}>
-              <td>{reservation.table ? reservation.table.tableNumber : 'Unassigned'}</td>
-              <td>{reservation.customerName}</td>
-              <td>{reservation.partySize}</td>
-              <td>
-                {new Date(reservation.date).toLocaleDateString()}&nbsp;
-                {reservation.time}
-              </td>
-              <td>{reservation.status}</td>
-              <td>{reservation.specialRequests || 'None'}</td>
+      <div className="reservations-table-container">
+        <table className="reservations-table">
+          <thead>
+            <tr>
+              <th>Table Number</th>
+              <th>Customer Name</th>
+              <th>Party Size</th>
+              <th>Date &amp; Time</th>
+              <th>Status</th>
+              <th>Special Requests</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {reservations.map((reservation) => (
+              <tr key={reservation.reservationId}>
+                <td>{reservation.table ? reservation.table.tableNumber : 'Unassigned'}</td>
+                <td>{reservation.customerName}</td>
+                <td>{reservation.partySize}</td>
+                <td>
+                  {new Date(reservation.date).toLocaleDateString()}&nbsp;
+                  {reservation.time}
+                </td>
+                <td>{reservation.status}</td>
+                <td>{reservation.specialRequests || 'None'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <h1 className="title">Make a Reservation</h1>
       <form className="form" onSubmit={handleSubmit}>
