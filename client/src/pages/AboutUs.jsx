@@ -1,6 +1,7 @@
 import SalakoFavour from "../assets/SalakoFavour.jpg";
 import Patrick from "../assets/patrick.jpg";
-import Gerald from "../assets/Gerald.png"
+import Gerald from "../assets/Gerald.png";
+import Muhammad from "../assets/Muhammad.png";
 import "../css/styles.css";
 
 const person = {
@@ -9,8 +10,8 @@ const person = {
     picture: Gerald,
   },
   Muhammad: {
-    description: "",
-    picture: "",
+    description: "As the front-end architect, Muhammad crafted a React-powered interface that makes menu browsing visually engaging and takeout ordering effortless, ensuring a smooth user experience from homepage to checkout.",
+    picture: Muhammad,
   },
   Patrick: {
     description:
