@@ -1,6 +1,7 @@
 import SalakoFavour from "../assets/SalakoFavour.jpg";
 import Patrick from "../assets/patrick.jpg";
 import Gerald from "../assets/Gerald.png"
+import Nicholas from "../assets/Nicholas.jpg"
 import "../css/styles.css";
 
 const person = {
@@ -18,8 +19,8 @@ const person = {
     picture: Patrick,
   },
   Nicholas: {
-    description: "",
-    picture: "",
+    description: "As one of the founders of Umami House, Nicholas continues to pursue his passion of facilitating and supporting both his co-founders and and clientele wherever he can.",
+    picture: Nicholas,
   },
   Micah: {
     description: "",
