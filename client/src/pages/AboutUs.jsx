@@ -2,6 +2,7 @@ import SalakoFavour from "../assets/SalakoFavour.jpg";
 import Patrick from "../assets/patrick.jpg";
 import Gerald from "../assets/Gerald.png";
 import Muhammad from "../assets/Muhammad.png";
+import Micah from "../assets/Micah.jpg";
 import "../css/styles.css";
 
 const person = {
@@ -23,8 +24,8 @@ const person = {
     picture: "",
   },
   Micah: {
-    description: "",
-    picture: "",
+    description: "Micah recently joined and has focused on making small changes to the front-end and optimizing the application's deployment.",
+    picture: Micah,
   },
   Favour: {
     description:
@@ -73,7 +74,10 @@ function AboutUs() {
           image={person.Patrick.picture}
           desc={person.Patrick.description}
         />
-        <Cards image={person.Micah.picture} desc={person.Micah.description} />
+        <Cards 
+          image={person.Micah.picture} 
+          desc={person.Micah.description} 
+        />
         <Cards
           image={person.Nicholas.picture}
           desc={person.Nicholas.description}
