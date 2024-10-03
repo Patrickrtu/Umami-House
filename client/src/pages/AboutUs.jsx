@@ -50,7 +50,7 @@ const Cards = ({ image, desc }) => {
 
 function AboutUs() {
   return (
-    <div>
+    <div className="about-container">
       <h1 className="page-header">Inspiration</h1>
 
       <h3 className="page-section">
@@ -63,8 +63,8 @@ function AboutUs() {
         textures of the meals at Umami House.
       </h3>
 
-      <h1 className="page-header">Founders</h1>
-      <div className="container">
+      <h1 className="page-subheader">Founders</h1>
+      <div className="cards-container">
         <Cards image={person.Favour.picture} desc={person.Favour.description} />
         <Cards
           image={person.Muhammad.picture}

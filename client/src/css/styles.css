@@ -107,8 +107,9 @@
         padding-left: 2%;
         margin: 1%;
     }
-    .container{
+    .about-container {
         display: flex;
+        justify-content:center;
         flex-wrap: wrap;
         height: 100%;
         width:100%;
@@ -462,14 +463,21 @@ button:hover {
         padding-left: 2%;
         margin: 1%;
     }
-    .container{
+
+    .cards-container{
         display: flex;
         flex-wrap: wrap;
         height: 100%;
-        width:100%;
+        width: auto;
+        justify-content: center;
         margin: 2%;
         margin-top: 0%;
         border-top: 2pt solid black;
+    }
+    .about-container{
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem;
     }
 
     .fab2{
@@ -482,11 +490,19 @@ button:hover {
         justify-content: center;
         margin-top: 4%;
     }
+    .page-subheader{
+      display:flex;
+      justify-content: center;
+      margin-top: 4%;
+    }
     .page-section{
-        font-family: cursive;
-        margin-left: 2%;
-        margin-right: 2%;
-}
+        margin-left: 8%;
+        margin-right: 8%;
+        margin-bottom: 0%;
+        font-weight: lighter;
+        font-style: italic;
+        text-align: justify;
+    }
 
 }
 /* General onhover for Aboutus page*/
