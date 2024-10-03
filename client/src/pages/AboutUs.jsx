@@ -3,6 +3,7 @@ import Patrick from "../assets/patrick.jpg";
 import Gerald from "../assets/Gerald.png";
 import Muhammad from "../assets/Muhammad.png";
 import Micah from "../assets/Micah.jpg";
+import Nicholas from "../assets/Nicholas.jpg"
 import "../css/styles.css";
 
 const person = {
@@ -20,8 +21,8 @@ const person = {
     picture: Patrick,
   },
   Nicholas: {
-    description: "",
-    picture: "",
+    description: "As one of the founders of Umami House, Nicholas continues to pursue his passion of facilitating and supporting both his co-founders and and clientele wherever he can.",
+    picture: Nicholas,
   },
   Micah: {
     description: "Micah recently joined and has focused on making small changes to the front-end and optimizing the application's deployment.",
